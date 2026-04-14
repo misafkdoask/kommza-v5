@@ -1,0 +1,806 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kommza V5 — Структура и копирайт лендинга (планировщик)</title>
+  <style>
+    /* ==============================
+       WIREFRAME-ONLY CSS
+       Minimal layout for readability.
+       No design, no effects.
+       ============================== */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: system-ui, -apple-system, sans-serif; line-height: 1.6; color: #1a1a1a; }
+    .container { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+
+    /* Sections */
+    section { padding: 80px 0; border-bottom: 2px solid #e0e0e0; }
+
+    /* Typography */
+    h1 { font-size: 2.5rem; line-height: 1.2; margin-bottom: 16px; }
+    h2 { font-size: 2rem; line-height: 1.3; margin-bottom: 12px; }
+    h3 { font-size: 1.25rem; line-height: 1.4; margin-bottom: 8px; }
+    p { margin-bottom: 12px; }
+    .section__label { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.12em; color: #888; margin-bottom: 8px; }
+    .section__subtitle { font-size: 1.1rem; color: #555; max-width: 640px; margin-bottom: 24px; }
+
+    /* Wireframe annotations (visible only in wireframe) */
+    .wf-note {
+      background: #fff3cd; border: 1px dashed #ffc107;
+      padding: 8px 12px; font-size: 0.8rem; color: #856404;
+      margin: 12px 0; border-radius: 4px;
+    }
+    .wf-act {
+      background: #e0f2fe; color: #0369a1;
+      padding: 4px 12px; font-size: 0.7rem; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.1em;
+      display: inline-block; margin-bottom: 16px; border-radius: 4px;
+    }
+
+    /* Grids */
+    .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin: 32px 0; }
+    .grid-2x3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin: 32px 0; }
+
+    /* Cards */
+    .card { border: 1px solid #ddd; border-radius: 8px; padding: 24px; }
+    .card--highlight { border-color: #1a1a1a; border-width: 2px; background: #fafaf8; }
+    .card--muted { background: #f5f5f5; }
+    .card ul { padding-left: 20px; margin-top: 8px; }
+    .card li { margin-bottom: 4px; font-size: 0.95rem; }
+
+    /* Buttons */
+    .btn { display: inline-block; padding: 14px 28px; border-radius: 6px; text-decoration: none; font-weight: 600; margin-right: 12px; margin-bottom: 8px; }
+    .btn--primary { background: #1a1a1a; color: #fff; }
+    .btn--secondary { background: transparent; border: 2px solid #1a1a1a; color: #1a1a1a; }
+
+    /* Header */
+    header { padding: 16px 0; border-bottom: 1px solid #e0e0e0; position: sticky; top: 0; background: #fff; z-index: 100; }
+    header .container { display: flex; justify-content: space-between; align-items: center; }
+    nav { display: flex; align-items: center; gap: 24px; }
+    nav a { text-decoration: none; color: #1a1a1a; font-size: 0.95rem; }
+
+    /* Hero */
+    #hero { padding: 120px 0 80px; background: #fafafa; }
+    .hero__proof { font-size: 0.9rem; color: #666; margin-top: 20px; }
+
+    /* Steps */
+    .steps { display: flex; align-items: flex-start; gap: 16px; margin: 40px 0; }
+    .step { flex: 1; text-align: center; padding: 24px 16px; }
+    .step__number { display: inline-flex; align-items: center; justify-content: center; width: 48px; height: 48px; border-radius: 50%; background: #1a1a1a; color: #fff; font-weight: 700; font-size: 1.25rem; margin-bottom: 12px; }
+    .step__arrow { display: flex; align-items: center; padding-top: 16px; color: #ccc; font-size: 1.5rem; }
+
+    /* Stats */
+    .stats { display: flex; justify-content: space-around; gap: 24px; margin: 40px 0; }
+    .stat { text-align: center; }
+    .stat__number { font-size: 2.5rem; font-weight: 700; display: block; line-height: 1.2; }
+    .stat__unit { font-size: 1.5rem; font-weight: 700; }
+    .stat__label { font-size: 0.85rem; color: #666; margin-top: 4px; }
+
+    /* Comparison table */
+    .compare-table { width: 100%; border-collapse: collapse; margin: 32px 0; }
+    .compare-table th, .compare-table td { padding: 14px 16px; text-align: center; border-bottom: 1px solid #eee; }
+    .compare-table th { font-weight: 600; font-size: 0.9rem; }
+    .compare-table td:first-child { text-align: left; font-weight: 500; }
+    .compare-table .col-kommza { background: #fafaf8; font-weight: 600; }
+    .compare-table .row-label { color: #666; }
+
+    /* Pricing */
+    .pricing__grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; margin: 32px 0; }
+    .price-card { border: 1px solid #ddd; border-radius: 8px; padding: 24px; }
+    .price-card--featured { border-color: #1a1a1a; border-width: 2px; position: relative; }
+    .price-card__badge { position: absolute; top: -12px; left: 50%; transform: translateX(-50%); background: #1a1a1a; color: #fff; padding: 2px 14px; border-radius: 12px; font-size: 0.75rem; font-weight: 600; white-space: nowrap; }
+    .price-card__name { font-weight: 600; font-size: 1.1rem; }
+    .price-card__price { font-size: 2rem; font-weight: 700; margin: 12px 0; }
+    .price-card__price small { font-size: 0.9rem; font-weight: 400; color: #666; }
+    .price-card__desc { font-size: 0.85rem; color: #666; margin-bottom: 16px; }
+    .price-card__features { list-style: none; padding: 0; margin-bottom: 20px; }
+    .price-card__features li { padding: 4px 0; font-size: 0.9rem; }
+    .price-card__features li::before { content: "✓ "; color: #22c55e; font-weight: 700; }
+
+    /* FAQ */
+    .faq__list { max-width: 800px; }
+    .faq__item { border-bottom: 1px solid #eee; }
+    .faq__question { display: block; width: 100%; text-align: left; padding: 20px 0; font-size: 1.05rem; font-weight: 600; background: none; border: none; cursor: pointer; font-family: inherit; color: inherit; }
+    .faq__answer { padding: 0 0 20px; color: #555; line-height: 1.7; }
+
+    /* Final CTA */
+    #final-cta { background: #1a1a1a; color: #fff; text-align: center; padding: 100px 0; border-bottom: none; }
+    #final-cta h2 { color: #fff; }
+    #final-cta p { color: #ccc; }
+    #final-cta .btn--primary { background: #fff; color: #1a1a1a; }
+    #final-cta .btn--secondary { border-color: #666; color: #fff; }
+
+    /* Footer */
+    footer { background: #111; color: #aaa; padding: 40px 0; font-size: 0.85rem; }
+    footer a { color: #ccc; text-decoration: none; }
+    .footer__grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 32px; }
+    .footer__col h4 { color: #fff; font-size: 0.9rem; margin-bottom: 12px; }
+    .footer__col ul { list-style: none; }
+    .footer__col li { margin-bottom: 6px; }
+
+    /* Use-case photos placeholder */
+    .uc-card__photo { width: 100%; height: 140px; background: #e5e5e5; border-radius: 8px 8px 0 0; display: flex; align-items: center; justify-content: center; color: #999; font-size: 0.8rem; }
+
+    /* AI section */
+    .ai__features { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; margin: 32px 0; }
+    .ai__feature { padding: 20px; border: 1px solid #eee; border-radius: 8px; }
+    .ai__feature h3 { font-size: 1.1rem; }
+    .ai__status { display: inline-block; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.05em; padding: 2px 8px; border-radius: 4px; background: #f0f0f0; color: #888; margin-left: 8px; }
+    .price-card__upcoming { font-size: 0.8rem; color: #888; border-top: 1px solid #eee; padding-top: 12px; margin: 16px 0; font-style: italic; }
+
+    /* Product showcase */
+    .product-showcase { display: flex; align-items: flex-end; justify-content: center; gap: 24px; margin: 40px auto 0; max-width: 900px; }
+    .product-showcase__desktop { flex: 3; border: 1px solid #ddd; border-radius: 10px; overflow: hidden; background: #fff; }
+    .product-showcase__browser-bar { display: flex; align-items: center; gap: 12px; padding: 10px 14px; background: #f5f5f5; border-bottom: 1px solid #eee; }
+    .product-showcase__dots { display: flex; gap: 6px; }
+    .product-showcase__dots span { width: 10px; height: 10px; border-radius: 50%; display: block; }
+    .product-showcase__url { font-size: 0.75rem; color: #888; background: #fff; padding: 3px 12px; border-radius: 4px; border: 1px solid #eee; }
+    .product-showcase__screen { background: #e5e5e5; height: 340px; display: flex; align-items: center; justify-content: center; color: #999; font-size: 0.85rem; }
+    .product-showcase__mobile { flex: 1; max-width: 160px; }
+    .product-showcase__phone-frame { background: #e5e5e5; height: 280px; border-radius: 20px; border: 2px solid #ddd; display: flex; align-items: center; justify-content: center; color: #999; font-size: 0.8rem; }
+
+    /* Annotations system */
+    .wf-rationale {
+      background: #f0fdf4; border-left: 3px solid #22c55e;
+      padding: 12px 16px; margin: 16px 0; font-size: 0.82rem; color: #166534; line-height: 1.6;
+      border-radius: 0 6px 6px 0;
+    }
+    .wf-rationale strong { color: #15803d; }
+    .wf-rationale em { color: #166534; font-style: normal; background: #dcfce7; padding: 1px 4px; border-radius: 2px; }
+    .wf-alt {
+      background: #fefce8; border-left: 3px solid #eab308;
+      padding: 10px 16px; margin: 8px 0; font-size: 0.8rem; color: #854d0e; line-height: 1.5;
+      border-radius: 0 6px 6px 0;
+    }
+    .wf-doc-header {
+      background: #1a1a1a; color: #fff; padding: 40px 0; text-align: center; margin-bottom: 0;
+    }
+    .wf-doc-header h1 { color: #fff; font-size: 1.6rem; margin-bottom: 8px; }
+    .wf-doc-header p { color: #aaa; font-size: 0.9rem; margin-bottom: 4px; }
+    .wf-doc-meta { display: flex; justify-content: center; gap: 32px; margin-top: 16px; font-size: 0.8rem; color: #666; }
+  </style>
+</head>
+
+<body>
+
+<!-- DOC HEADER -->
+<div class="wf-doc-header">
+  <div class="container">
+    <h1>KOMMZA V5 — Структура и копирайт лендинга</h1>
+    <p>Планировщик для команды. Каждая секция с пояснениями: почему так, а не иначе.</p>
+    <div class="wf-doc-meta">
+      <span>10 секций</span>
+      <span>3 акта: Кто мы → Как мы это делаем → Продукт работает</span>
+      <span>Brand voice: уверенный профессионал (Apple + Notion)</span>
+    </div>
+  </div>
+</div>
+
+<!-- NOTE: Header лендинга (KOMMZA | Продукт | Тарифы | Вопросы | Начать бесплатно) -->
+<!-- Будет добавлен на этапе дизайна. В планировщике убран, чтобы не отвлекать от контента. -->
+
+
+<!-- ============================================
+     ACT 1: IDENTITY — "КТО МЫ"
+     ============================================ -->
+
+
+<!-- SECTION 1: HERO — Brand Identity -->
+<section id="hero">
+  <div class="container">
+    <span class="wf-act">Act 1 → Кто мы</span>
+
+    <div class="wf-rationale">
+      <strong>Почему такой заголовок.</strong> «Простая видеосвязь для серьёзной работы» — контраст в одной фразе.
+      «Простая» закрывает боль (корпоративные ВКС сложные), «серьёзной работы» закрывает страх (простое = несерьёзное).
+      Паттерн из ресёрча: Gather «refreshingly human», Around «energy, ideas, action» — называют ощущение, а не фичу.
+      Тест: фразу можно повторить коллеге за 3 секунды и она передаёт суть.
+    </div>
+    <div class="wf-alt">
+      <strong>Отвергнутые варианты:</strong> «Видеоплатформа для бизнеса» (YouTube-ассоциация),
+      «Видеовстречи, в которых всё уже встроено» (что "всё"?), «Встречи. Вебинары. Записи.» (записи — базовая фича, не headline-level).
+    </div>
+
+    <h1>Простая видеосвязь<br>для серьёзной работы.</h1>
+
+    <p class="section__subtitle">
+      Онлайн-встречи и вебинары — в одном сервисе.
+      Ссылка, клик, разговор. От 0 ₽.
+    </p>
+
+    <div>
+      <a href="#" class="btn btn--primary">Начать встречу</a>
+      <a href="#" class="btn btn--secondary">Запросить демо для команды</a>
+    </div>
+
+    <p class="hero__proof">
+      2 секунды до встречи. Работает в браузере. Гости подключаются по ссылке.
+    </p>
+
+    <div style="margin-top: 40px; background: #eee; border-radius: 12px; padding: 32px; text-align: center; color: #888;">
+      <p style="font-size: 0.85rem; margin-bottom: 8px;">Скриншот интерфейса встречи (desktop)</p>
+      <div style="background: #ddd; height: 320px; border-radius: 8px; display: flex; align-items: center; justify-content: center;">
+        screen-call.png / screen-lobby.png
+      </div>
+    </div>
+
+    <!-- Trust strip -->
+    <div class="wf-rationale">
+      <strong>Trust strip.</strong> Zoom показывает NYT, Walmart, Capital One. Google Meet — Robinhood, Vimeo, Equifax.
+      TrueConf — Ростелеком, Газпром нефть, Росатом. Это самый мощный proof на рынке.
+      Placeholder готов — подставить реальные логотипы когда появятся пилоты/клиенты.
+    </div>
+    <div style="margin-top: 40px; text-align: center; padding: 20px 0; border-top: 1px solid #eee;">
+      <p style="font-size: 0.8rem; color: #aaa; letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 12px;">Нам доверяют</p>
+      <div style="display: flex; justify-content: center; gap: 40px; opacity: 0.3;">
+        <span style="font-size: 0.9rem; color: #999;">[ логотип ]</span>
+        <span style="font-size: 0.9rem; color: #999;">[ логотип ]</span>
+        <span style="font-size: 0.9rem; color: #999;">[ логотип ]</span>
+        <span style="font-size: 0.9rem; color: #999;">[ логотип ]</span>
+      </div>
+      <p style="font-size: 0.75rem; color: #bbb; margin-top: 8px;">Placeholder — добавить логотипы клиентов/пилотов когда будут</p>
+    </div>
+  </div>
+</section>
+
+
+<!-- SECTION 2: POSITIONING — Market Gap -->
+<section id="positioning">
+  <div class="container">
+    <span class="wf-act">Act 1 → Кто мы (deeper)</span>
+
+    <div class="wf-rationale">
+      <strong>Почему эта секция существует.</strong> Ключевой инсайт из бизнес-плана, которого не было ни в одной версии V1-V4:
+      Коммза заполняет разрыв между тяжёлыми корпоративными ВКС и лёгкими мессенджерами.
+      Формула <em>«Проще X. Серьёзнее Y.»</em> — классический positioning wedge (Front, Basecamp используют аналогичный).
+      Три колонки создают ментальную модель: посетитель моментально понимает, ГДЕ Коммза на рынке.
+    </div>
+    <div class="wf-alt">
+      <strong>Решение:</strong> Имена конкурентов убраны из колонок (TrueConf, Telegram и т.д.) — по запросу команды.
+      Вместо имён — категории с описаниями-характеристиками. Тон смягчён: «обычно», «как правило».
+    </div>
+
+    <p class="section__label">Позиционирование</p>
+    <h2>Проще корпоративных ВКС.<br>Серьёзнее мессенджера.</h2>
+
+    <p class="section__subtitle">
+      Одна платформа. Вебинары включены.
+    </p>
+
+    <div class="grid-3">
+      <!-- Column 1: Corporate VCS -->
+      <div class="card card--muted">
+        <h3>Корпоративные ВКС</h3>
+        <p style="color: #888; font-size: 0.85rem;">Требуют IT-отдел и лицензии</p>
+        <ul>
+          <li>Долгое внедрение и настройка</li>
+          <li>Нужен IT-отдел</li>
+          <li>Установка на каждое устройство</li>
+          <li>Лицензии на каждую функцию</li>
+          <li>Вебинары — отдельный продукт</li>
+          <li>Привязка к экосистеме</li>
+        </ul>
+      </div>
+
+      <!-- Column 2: KOMMZA (highlighted) -->
+      <div class="card card--highlight">
+        <h3>Коммза</h3>
+        <p style="color: #888; font-size: 0.85rem;">Всё для работы. Ничего лишнего.</p>
+        <ul>
+          <li><strong>2 секунды</strong> — и вы на встрече</li>
+          <li><strong>Браузер</strong> — без установки</li>
+          <li><strong>Вебинары и записи</strong> — встроены</li>
+          <li><strong>0 ₽</strong> — бесплатный старт</li>
+          <li><strong>500+ участников</strong></li>
+          <li><strong>152-ФЗ</strong> — серверы в России</li>
+        </ul>
+      </div>
+
+      <!-- Column 3: Messengers -->
+      <div class="card card--muted">
+        <h3>Мессенджеры</h3>
+        <p style="color: #888; font-size: 0.85rem;">Созданы для переписки, не для работы</p>
+        <ul>
+          <li>Обычно нет вебинаров</li>
+          <li>Как правило, нет записи встреч</li>
+          <li>Ограниченная демонстрация экрана</li>
+          <li>Мало бизнес-функций</li>
+          <li>Ограничение по участникам</li>
+          <li>Нет интеграции с рабочими календарями</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ============================================
+     ACT 2: VALUE — "КАК МЫ ЭТО ДЕЛАЕМ"
+     ============================================ -->
+
+
+<!-- SECTION 3: HOW IT WORKS -->
+<section id="how-it-works">
+  <div class="container">
+    <span class="wf-act">Act 2 → Как мы это делаем</span>
+
+    <div class="wf-rationale">
+      <strong>Почему 3 шага.</strong> Паттерн из V1 — работал, оставлен. Google Meet, Zoom, Calendly — все используют 3-step flow.
+      Копирайт максимально сокращён: <em>«Нажмите "Создать". Готово.»</em> — 4 слова вместо 12.
+      Саб <em>«Ссылка. Клик. Встреча.»</em> — три существительных, ритм Notion/Linear.
+    </div>
+
+    <p class="section__label">Как это работает</p>
+    <h2>Три шага до встречи.</h2>
+    <p class="section__subtitle">
+      Ссылка. Клик. Встреча.
+    </p>
+
+    <div class="steps">
+      <div class="step">
+        <div class="step__number">1</div>
+        <h3>Создайте встречу</h3>
+        <p>Нажмите «Создать». Готово.</p>
+      </div>
+      <div class="step__arrow">→</div>
+      <div class="step">
+        <div class="step__number">2</div>
+        <h3>Отправьте ссылку</h3>
+        <p>Скопируйте и отправьте куда удобно.</p>
+      </div>
+      <div class="step__arrow">→</div>
+      <div class="step">
+        <div class="step__number">3</div>
+        <h3>Участник подключается</h3>
+        <p>Гость откроет в браузере. Ничего устанавливать не нужно.</p>
+      </div>
+    </div>
+
+    <div style="margin-top: 32px; background: #eee; border-radius: 8px; padding: 24px; text-align: center; color: #888; font-size: 0.85rem;">
+      Скриншот: интерфейс создания встречи (screen-promise.png)
+    </div>
+  </div>
+</section>
+
+
+<!-- SECTION 4: PLATFORM CAPABILITIES -->
+<section id="features">
+  <div class="container">
+    <span class="wf-act">Act 2 → Как мы это делаем</span>
+
+    <div class="wf-rationale">
+      <strong>Почему «Всё включено в тариф».</strong> Ресёрч конкурентов показал: TrueConf и Zoom продают вебинары отдельной лицензией.
+      Это главный болевой триггер для SMB. <em>«Не как допродажа. Как часть платформы.»</em> — tension-фраза,
+      которая прямо атакует модель конкурентов, не называя их. Паттерн из Front: «concede then pivot».
+    </div>
+
+    <p class="section__label">Возможности</p>
+    <h2>Всё включено в тариф.</h2>
+    <p class="section__subtitle">
+      Вебинары, запись, календарь — не как допродажа. Как часть платформы.
+    </p>
+
+    <div class="grid-2x3">
+      <div class="card">
+        <h3>Вебинары и стримы</h3>
+        <p>До 500+ участников с интерактивом, чатом и записью. Входят в тариф, а не продаются отдельно.</p>
+      </div>
+
+      <div class="card">
+        <h3>Запись встреч</h3>
+        <p>Облачное хранение с мгновенным доступом. Делитесь записями с теми, кто пропустил.</p>
+      </div>
+
+      <div class="card">
+        <h3>Демонстрация экрана</h3>
+        <p>Показывайте презентации, документы, код — весь экран или отдельное окно.</p>
+      </div>
+
+      <div class="card">
+        <h3>Календарь</h3>
+        <p>Подключите Яндекс и Google Календарь. Встреча создаётся автоматически из события.</p>
+      </div>
+
+      <div class="card">
+        <h3>Мобильные приложения</h3>
+        <p>iOS и Android — или просто откройте в браузере телефона. Работает везде.</p>
+      </div>
+
+      <div class="card">
+        <h3>Безопасность и 152-ФЗ</h3>
+        <p>Серверы в России, 152-ФЗ. Данные не уходят за границу.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- SECTION 5: USE CASES -->
+<section id="use-cases">
+  <div class="container">
+    <span class="wf-act">Act 2 → Как мы это делаем</span>
+
+    <div class="wf-rationale">
+      <strong>Почему от первого лица.</strong> Ресёрч: Loom, Gather, Superhuman — лучшие use cases написаны как micro-stories от первого лица.
+      «Отправила кандидату ссылку в Telegram. Через 3 секунды мы уже разговаривали.» — читатель ставит себя на место героя.
+      V1-V3 использовали третье лицо («кандидат переходит по ссылке») — дистанция, нет эмоции.
+    </div>
+    <div class="wf-alt">
+      <strong>Внимание:</strong> Это имитация голоса клиента, не реальные цитаты.
+      Когда появятся реальные отзывы — заменить на настоящие. Формат карточки сохранится.
+    </div>
+
+    <p class="section__label">Сценарии</p>
+    <h2>Кто использует Коммзу.</h2>
+    <p class="section__subtitle">
+      Команды, HR, агентства, преподаватели — каждый день.
+    </p>
+
+    <div class="grid-2x3">
+      <div class="card">
+        <div class="uc-card__photo">photo-uc-teams.jpg</div>
+        <div style="padding: 16px 0;">
+          <h3>Команды и IT</h3>
+          <p>«Утро, дейли. Открыл ссылку — вся команда уже здесь. Две минуты — и работаем.»</p>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="uc-card__photo">photo-uc-hr.jpg</div>
+        <div style="padding: 16px 0;">
+          <h3>HR и рекрутинг</h3>
+          <p>«Отправила кандидату ссылку в Telegram. Через 3 секунды мы уже разговаривали.»</p>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="uc-card__photo">photo-uc-consult.jpg</div>
+        <div style="padding: 16px 0;">
+          <h3>Консультации</h3>
+          <p>«Клиент кликнул — и он на консультации. Не пришлось объяснять, куда нажимать.»</p>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="uc-card__photo">photo-uc-sales.jpg</div>
+        <div style="padding: 16px 0;">
+          <h3>Продажи и демо</h3>
+          <p>«Показал экран, записал демо. Клиент пересмотрел вечером и написал: давайте работать.»</p>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="uc-card__photo">photo-uc-education.jpg</div>
+        <div style="padding: 16px 0;">
+          <h3>Обучение</h3>
+          <p>«500 студентов на лекции. Запись готова через минуту после окончания.»</p>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="uc-card__photo">photo-uc-corporate.jpg</div>
+        <div style="padding: 16px 0;">
+          <h3>Корпоративные встречи</h3>
+          <p>«Партнёр на Windows, я на Mac, коллега с телефона. Все в одном звонке.»</p>
+        </div>
+      </div>
+    </div>
+
+    <div style="text-align: center; margin-top: 40px;">
+      <p style="font-size: 1.05rem; color: #555; margin-bottom: 12px;">Нашли свой сценарий?</p>
+      <a href="#" class="btn btn--primary">Попробуйте бесплатно</a>
+    </div>
+  </div>
+</section>
+
+
+<!-- ============================================
+     ACT 3: PROOF — "ПРОДУКТ УЖЕ РАБОТАЕТ"
+     ============================================ -->
+
+
+<!-- SECTION 6: PRODUCT SHOWCASE -->
+<section id="product">
+  <div class="container">
+    <span class="wf-act">Act 3 → Продукт работает</span>
+
+    <div class="wf-rationale">
+      <strong>Почему визуальный proof, а не текстовый.</strong> Ресёрч Zoom/Google Meet/Телемост:
+      ни один лидер не пишет «продукт работает» — они <em>показывают интерфейс</em>.
+      Zoom: карусель UI в hero. Google Meet: скриншот в каждой секции. Телемост: мокап мобилки.
+      Наш формат: desktop в браузерном фрейме (kommza.io/room/abc-123) + мобилка рядом = proof через показ.
+    </div>
+
+    <p class="section__label">Продукт</p>
+    <h2>Так это выглядит.</h2>
+
+    <div class="product-showcase">
+      <div class="product-showcase__desktop">
+        <div class="product-showcase__browser-bar">
+          <span class="product-showcase__dots">
+            <span style="background:#ff5f57;"></span>
+            <span style="background:#ffbd2e;"></span>
+            <span style="background:#28c840;"></span>
+          </span>
+          <span class="product-showcase__url">kommza.io/room/abc-123</span>
+        </div>
+        <div class="product-showcase__screen">
+          screen-call.png (desktop)
+        </div>
+      </div>
+      <div class="product-showcase__mobile">
+        <div class="product-showcase__phone-frame">
+          screen-mobile (phone)
+        </div>
+      </div>
+    </div>
+
+    <p style="text-align: center; color: #888; font-size: 0.9rem; margin-top: 20px;">
+      Браузер · iOS · Android — работает на любом устройстве
+    </p>
+
+    <div style="text-align: center; margin-top: 24px;">
+      <a href="#" class="btn btn--primary">Попробовать бесплатно</a>
+    </div>
+  </div>
+</section>
+
+
+<!-- SECTION 7: FOUNDER VISION -->
+<section id="vision" style="background: #f8f8f6;">
+  <div class="container" style="max-width: 800px;">
+    <span class="wf-act">Act 3 → Продукт работает (trust)</span>
+
+    <div class="wf-rationale">
+      <strong>Почему секция founder.</strong> Скоринг показал: инвестор не видит команду (6.0→7.4),
+      клиент не чувствует доверия (нет лиц за продуктом). Цитата CEO решает обе проблемы.
+      Также: AI-нарратив живёт здесь — из уст основателя, а не как product claim. Это честнее.
+    </div>
+    <div class="wf-alt">
+      <strong>TODO:</strong> Текущая цитата — имитация. Нужна реальная цитата от Александра Ребеко.
+      + реальное фото. Формат и место останутся.
+    </div>
+
+    <p class="section__label">Наше видение</p>
+
+    <div style="display: flex; gap: 32px; align-items: flex-start; margin-top: 24px;">
+      <div style="flex-shrink: 0;">
+        <div style="width: 80px; height: 80px; border-radius: 50%; background: #ddd; display: flex; align-items: center; justify-content: center; color: #999; font-size: 0.7rem;">
+          фото
+        </div>
+      </div>
+      <div>
+        <blockquote style="font-size: 1.15rem; line-height: 1.7; color: #333; margin: 0; padding: 0; border: none;">
+          «Мы видим разрыв: корпоративные ВКС перегружены, а мессенджеры не дотягивают до рабочих задач.
+          Коммза — это видеосвязь, которая запускается за секунды, но закрывает потребности бизнеса:
+          вебинары, запись, совместная работа. Следующий шаг — AI-ассистент, который будет слушать,
+          переводить и фиксировать решения прямо во время встречи. Архитектура уже готова под это.»
+        </blockquote>
+        <p style="margin-top: 12px; font-weight: 600;">Александр Ребеко</p>
+        <p style="font-size: 0.85rem; color: #888;">Сооснователь и CEO, ООО «ЛЕТС»</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- SECTION 8: PRICING -->
+<section id="pricing">
+  <div class="container">
+    <span class="wf-act">Act 3 → Продукт работает</span>
+
+    <div class="wf-rationale">
+      <strong>Почему «Не trial. Не 14 дней.»</strong> Ресёрч российского рынка: пользователи привыкли что «бесплатно» = пробный период 14 дней.
+      Прямое опровержение <em>«0₽ — навсегда. Не trial.»</em> — адресует этот скептицизм.
+      Паттерн из amoCRM: pain-first, прямой, не оборонительный.
+    </div>
+    <div class="wf-alt">
+      <strong>Решение по AI:</strong> AI-бейджи убраны из карточек тарифов (было на каждой — давление «плати за обещание»).
+      Вынесены в единый roadmap-блок под тарифами — честнее и не создаёт давления «плати за будущее».
+    </div>
+
+    <p class="section__label">Тарифы</p>
+    <h2>Тарифы.</h2>
+    <p class="section__subtitle">
+      0 ₽ — навсегда. Не trial. Не 14 дней.
+    </p>
+
+    <div class="pricing__grid" style="grid-template-columns: repeat(3, 1fr);">
+
+      <!-- ПРОМО — Featured -->
+      <div class="price-card price-card--featured">
+        <div class="price-card__badge">Бесплатно навсегда</div>
+        <p class="price-card__name">Промо</p>
+        <p class="price-card__price">0 ₽</p>
+        <p class="price-card__desc">Самое необходимое для личного пользования</p>
+        <ul class="price-card__features">
+          <li>До 10 участников</li>
+          <li>Встречи до 2 часов</li>
+          <li>Календарь встреч</li>
+          <li>Демонстрация экрана, чат, реакции</li>
+          <li>Размытие фона</li>
+          <li>1 вебинар (пробный)</li>
+          <li>1 групповая комната (пробная)</li>
+        </ul>
+        <a href="#" class="btn btn--primary" style="width: 100%; text-align: center;">Попробовать</a>
+      </div>
+
+      <!-- ПРОФИ -->
+      <div class="price-card">
+        <p class="price-card__name">Профи</p>
+        <p class="price-card__price">450 ₽ <small>/мес</small></p>
+        <p class="price-card__desc">Для фрилансеров и профессионалов</p>
+        <p style="font-size: 0.85rem; color: #555; margin-bottom: 12px;">Всё из Промо, плюс:</p>
+        <ul class="price-card__features">
+          <li>До 100 участников</li>
+          <li>Интеграция с Яндекс / Google календарём</li>
+          <li>Свои фоны</li>
+          <li>1 вебинар / мес</li>
+          <li>1 групповая комната / мес</li>
+          <li>10 записей встреч (хранение 7 дней)</li>
+          <li>1 ГБ для записей</li>
+        </ul>
+        <a href="#" class="btn btn--secondary" style="width: 100%; text-align: center;">Выбрать</a>
+      </div>
+
+      <!-- КОМАНДА -->
+      <div class="price-card">
+        <p class="price-card__name">Команда</p>
+        <p class="price-card__price">850 ₽ <small>/чел/мес</small></p>
+        <p class="price-card__desc">Для команд и стартапов</p>
+        <p style="font-size: 0.85rem; color: #555; margin-bottom: 12px;">Всё из Профи, плюс:</p>
+        <ul class="price-card__features">
+          <li>До 10 параллельных встреч</li>
+          <li>Вебинары и групповые комнаты — без ограничений</li>
+          <li>Прямые трансляции</li>
+          <li>30 записей встреч (хранение 1 мес)</li>
+          <li>Админ-панель и аналитика</li>
+        </ul>
+        <a href="#" class="btn btn--secondary" style="width: 100%; text-align: center;">Выбрать</a>
+      </div>
+
+    </div>
+
+    <!-- AI Roadmap — single block under all tiers -->
+    <div style="margin-top: 32px; padding: 20px 24px; background: #f8f8f6; border-radius: 8px; text-align: center;">
+      <p style="font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.08em; color: #888; margin-bottom: 8px;">Q4 2026 — для всех тарифов</p>
+      <p style="font-size: 0.95rem; color: #555;">
+        AI-резюме встреч · Живые субтитры · Синхронный перевод
+      </p>
+    </div>
+
+    <p style="text-align: center; color: #888; font-size: 0.85rem; margin-top: 16px;">
+      Нужны условия для крупной команды? <a href="#" style="color: #555;">Запросите индивидуальный расчёт →</a>
+    </p>
+  </div>
+</section>
+
+
+<!-- SECTION 9: FAQ -->
+<section id="faq">
+  <div class="container">
+    <span class="wf-act">Act 3 → Продукт работает</span>
+
+    <div class="wf-rationale">
+      <strong>Почему 9 вопросов.</strong> Два добавлены по скорингу:
+      <em>«Чем отличается от Zoom?»</em> — главный вопрос клиента на Zoom, прямой ответ с конкретикой.
+      <em>«Как перейти с Zoom?»</em> — снижает switching friction: «регистрация — минута, первая встреча — 2 секунды после входа».
+      Оба вопроса закрывают главные барьеры при переключении с конкурента.
+    </div>
+
+    <p class="section__label">Вопросы</p>
+    <h2>Вопросы и ответы.</h2>
+
+    <div class="faq__list">
+      <div class="faq__item">
+        <button class="faq__question">Коммза — это российский сервис?</button>
+        <div class="faq__answer">
+          Да. Коммза — продукт компании ООО «ЛЕТС». Серверы расположены в России,
+          данные обрабатываются в соответствии с 152-ФЗ. Платформа не зависит
+          от иностранных экосистем и работает без VPN.
+        </div>
+      </div>
+
+      <div class="faq__item">
+        <button class="faq__question">Это правда бесплатно?</button>
+        <div class="faq__answer">
+          Да. Тариф «Промо» — 0 ₽ навсегда. Это не пробный период: до 10 участников,
+          встречи до 2 часов, демонстрация экрана, чат и реакции. Платные тарифы нужны
+          для расширенных функций — записей, вебинаров, работы в команде.
+        </div>
+      </div>
+
+      <div class="faq__item">
+        <button class="faq__question">Нужно ли что-то устанавливать?</button>
+        <div class="faq__answer">
+          Нет. Коммза работает в браузере — Chrome, Safari, Firefox, Edge.
+          Нативные приложения для iOS и Android доступны по желанию,
+          но для подключения к встрече достаточно просто открыть ссылку.
+        </div>
+      </div>
+
+      <div class="faq__item">
+        <button class="faq__question">Подходит ли Коммза для бизнеса?</button>
+        <div class="faq__answer">
+          Да. Платформа спроектирована для рабочей коммуникации: встречи, вебинары, демонстрации,
+          интервью, обучение. Тариф «Команда» включает администрирование, аналитику
+          и прямые трансляции. Для крупных компаний — индивидуальные условия по запросу.
+        </div>
+      </div>
+
+      <div class="faq__item">
+        <button class="faq__question">Чем Коммза отличается от Zoom или Google Meet?</button>
+        <div class="faq__answer">
+          Коммза — российский сервис с серверами в России (152-ФЗ). Вебинары и групповые комнаты
+          входят в тариф, а не продаются отдельно. Гости подключаются по ссылке в браузере —
+          без скачивания приложений и без регистрации. Бесплатный тариф включает встречи до 2 часов
+          на 10 участников — без ограничения по времени использования.
+        </div>
+      </div>
+
+      <div class="faq__item">
+        <button class="faq__question">Как перейти с Zoom или Google Meet?</button>
+        <div class="faq__answer">
+          Регистрация — минута. Первая встреча — через 2 секунды после входа.
+          Установка не нужна — Коммза работает в браузере.
+          Подключите Яндекс или Google Календарь — встречи создаются автоматически.
+          Гостям достаточно отправить ссылку. Никого не нужно переучивать.
+        </div>
+      </div>
+
+      <div class="faq__item">
+        <button class="faq__question">Когда будет доступен AI-ассистент?</button>
+        <div class="faq__answer">
+          AI-ассистент находится в активной разработке. Архитектура платформы спроектирована
+          с учётом интеграции искусственного интеллекта с первого дня. Мы сообщим о запуске
+          через рассылку — оставьте почту в форме «Узнать первым».
+        </div>
+      </div>
+
+      <div class="faq__item">
+        <button class="faq__question">Насколько Коммза безопасна?</button>
+        <div class="faq__answer">
+          Серверы в России, соответствие 152-ФЗ, шифрование соединений.
+          Платформа не привязана к иностранным экосистемам — ваши данные не уходят
+          за пределы российской инфраструктуры. Для бизнеса доступны кастомный домен и SSO.
+        </div>
+      </div>
+
+      <div class="faq__item">
+        <button class="faq__question">Где хранятся записи встреч? Можно ли заключить договор?</button>
+        <div class="faq__answer">
+          Записи хранятся на серверах в России. Для корпоративных клиентов доступен
+          договор обработки данных (DPA), разграничение ролей и доступов.
+          Свяжитесь с нами для обсуждения условий.
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- SECTION 10: FINAL CTA -->
+<section id="final-cta">
+  <div class="container">
+    <div class="wf-rationale" style="background: #1a3a2a; border-color: #22c55e; color: #86efac;">
+      <strong style="color: #4ade80;">Почему эта фраза.</strong> «Одна ссылка — и вы на встрече» — единственная строка из V1, которая прошла все 4 итерации.
+      Проверена на всех версиях: запоминается, повторяется, работает как closing. Не трогаем.
+    </div>
+    <h2>Одна ссылка — и вы на встрече</h2>
+    <p style="font-size: 1.1rem; margin-bottom: 32px;">
+      Простая видеосвязь для серьёзной работы. Бесплатный старт.
+    </p>
+
+    <div>
+      <a href="#" class="btn btn--primary">Начать встречу</a>
+      <a href="#" class="btn btn--secondary">Запросить демо для команды</a>
+    </div>
+  </div>
+</section>
+
+
+<!-- FOOTER убран — будет добавлен на этапе дизайна -->
+
+</body>
+</html>
